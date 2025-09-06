@@ -45,6 +45,8 @@ pub const Ball = struct {
         if (self.position.x + self.radius >= width or self.position.x <= self.radius) {
             // NOTE: aqui el juego debería acabar, pero de momento, que rebote
             self.velocity.x *= -1;
+            // de momento reseteamos puntuación
+            choques.* = 0;
             return choques.*;
         }
         // choca con borde vertical
