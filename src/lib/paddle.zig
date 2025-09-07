@@ -16,21 +16,26 @@ pub const Paddle = struct {
                 .x = x,
                 .y = 20,
             },
-            .velocity = 3,
+            // velocidad solo en y
+            .velocity = 5,
             .width = 30,
             .height = 150,
             .color = rl.WHITE,
             .isPlayer = isPlayer,
         };
     }
-    pub fn update(self: *Paddle, ball: *ballFile.Ball) void {
+    pub fn update(self: *Paddle, ball: *ballFile.Ball) !void {
         if (!self.isPlayer) {
             // la maquina se mueve más lento
-            if (self.position.y + 75 >= ball.position.y) {
-                self.position.y -= self.velocity * 0.9;
+            // bola por encima del centro del rectangulo
+            if (self.position.y + @as(f32, @floatFromInt(@divTrunc(self.height, 2))) >= ball.position.y) {
+                // se mueve para arriba
+                self.position.y -= self.velocity * 0.84;
             }
-            if (self.position.y + 75 <= ball.position.y) {
-                self.position.y += self.velocity * 0.95;
+            // bola por debajo del rectangulo
+            if (self.position.y + @as(f32, @floatFromInt(@divTrunc(self.height, 2))) <= ball.position.y) {
+                // se mueve para abajo
+                self.position.y += self.velocity * 0.84;
             }
         } else {
             if (rl.IsKeyDown(rl.KEY_UP)) {
